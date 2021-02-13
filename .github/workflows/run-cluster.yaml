@@ -14,7 +14,10 @@ jobs:
 
       - name: Install deps
         run: |
+          mkdir -p "$HOME/.local/bin"
           ./bin/deps
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+          echo $PATH
           which argocd
 
       - name: Create Cluster
