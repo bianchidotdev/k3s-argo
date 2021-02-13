@@ -28,7 +28,7 @@ argocd account update-password --current-password=${ARGO_PW} --new-password=${NE
 argocd app create guestbook --repo https://github.com/michaeldbianchi/argocd-example-apps.git --path guestbook --dest-server https://kubernetes.default.svc --dest-namespace default
 argocd app sync guestbook
 
-${SCRIPT_DIR}/wait-until-pods-ready 30 3
+${SCRIPT_DIR}/wait-until-pods-ready 100 3
 
 # Handle "curl: (52) Empty reply from server" while nginx is starting
 sleep 20
