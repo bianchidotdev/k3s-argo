@@ -18,7 +18,7 @@ NEW_ARGO_PW=$(openssl rand -base64 24)
 kubectl config set-context --current --namespace=argocd
 # ${SCRIPT_DIR}/wait-until-pods-ready 100 3
 sleep 30
-kubectl get po -n argocd
+kubectl describe pods
 kubectl config set-context --current --namespace=default
 
 kubectl port-forward svc/argocd-server -n argocd 8080:443 &
