@@ -3,12 +3,35 @@ set -e
 
 SCRIPT_DIR=$(dirname $0)
 
+# Kill background processes on script exit
+trap "kill 0" EXIT
+
 kubectl get nodes
 kubectl get pods
 
+kubectl apply -f manifests/nginx.yaml
+kubectl apply -f manifests/argo-namespace.yaml
+kubectl apply -f manifests/argo.yaml -n argocd
+ARGO_PW=$(kubectl get pods -n argocd -l app.kubernetes.io/name=argocd-server -o name | cut -d'/' -f 2)
+NEW_ARGO_PW=$(openssl rand -base64 24)
+
+kubectl config set-context --current --namespace=argocd
+${SCRIPT_DIR}/wait-until-pods-ready 30 3
+kubectl config set-context --current --namespace=default
+
+kubectl port-forward svc/argocd-server -n argocd 8080:443 &
+sleep 3
+
+echo y | argocd login localhost:8080 --username admin --password ${ARGO_PW}
+argocd account update-password --current-password=${ARGO_PW} --new-password=${NEW_ARGO_PW}
+
+argocd app create guestbook --repo https://github.com/michaeldbianchi/argocd-example-apps.git --path guestbook --dest-server https://kubernetes.default.svc --dest-namespace default
+argocd app sync guestbook
 
 ${SCRIPT_DIR}/wait-until-pods-ready 30 3
 
 # Handle "curl: (52) Empty reply from server" while nginx is starting
 sleep 20
-curl -sS http://localhost:8081/
+kubectl port-forward svc/guestbook-ui 8082:80 &
+sleep 3
+curl -sS http://localhost:8082/

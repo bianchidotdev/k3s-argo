@@ -12,11 +12,13 @@ function log {
 log "Starting setup"
 
 DEPS=(
+  argocd
   k3d
   kubectl
   kustomize
 )
 
+argocd_cmd="VERSION=$(curl --silent "https://api.github.com/repos/argoproj/argo-cd/releases/latest" | grep '"tag_name"' | sed -E 's/.*"([^"]+)".*/\1/'); curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/download/$VERSION/argocd-linux-amd64; chmod +x /usr/local/bin/argocd"
 k3d_cmd="curl -s https://raw.githubusercontent.com/rancher/k3d/main/install.sh | bash"
 kubectl_cmd="curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl && chmod +x ./kubectl && sudo mv ./kubectl /usr/local/bin/kubectl"
 kustomize_cmd='curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | bash"'

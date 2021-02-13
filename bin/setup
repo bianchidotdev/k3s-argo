@@ -3,6 +3,5 @@ set -e
 
 SCRIPT_DIR=$(dirname $0)
 
-k3d cluster create test --servers 2 --agents 2 \
-  --api-port 6550 -p "8081:80@loadbalancer" \
-  --volume $(pwd)/manifests:/var/lib/rancher/k3s/server/manifests
+k3d cluster create argo --servers 2 --agents 2 \
+  --api-port 6550 -p "8081:80@loadbalancer"
