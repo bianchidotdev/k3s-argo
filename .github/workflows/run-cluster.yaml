@@ -13,7 +13,9 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Install deps
-        run: ./bin/deps
+        run: |
+        ./bin/deps
+        echo "${HOME}/bin" >> $GITHUB_PATH
 
       - name: Create Cluster
         run: ./bin/setup
