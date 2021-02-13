@@ -30,7 +30,7 @@ for dependency in ${DEPS[@]}; do
     cmd_var="${dependency}_cmd"
     log "Installing $dependency with \"${!cmd_var}\""
     eval ${!cmd_var}
-    test $(which $dependency)
+    # test $(which $dependency)
   else log "$dependency already installed"
   fi
 done
