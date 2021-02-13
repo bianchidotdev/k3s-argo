@@ -20,8 +20,6 @@ jobs:
       - name: Install deps
         run: |
           ./bin/deps
-          echo $PATH
-          which argocd
 
       - name: Create Cluster
         run: ./bin/setup
