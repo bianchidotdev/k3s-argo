@@ -22,6 +22,7 @@ jobs:
           ./bin/deps
           echo $PATH
           which argocd
+          argocd version || true
 
       - name: Create Cluster
         run: ./bin/setup
