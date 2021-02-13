@@ -4,6 +4,7 @@ set -e
 SCRIPT_DIR=$(dirname $0)
 
 # Kill background processes on script exit
+trap "exit" INT TERM ERR
 trap "kill 0" EXIT
 
 kubectl get nodes
