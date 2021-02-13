@@ -16,6 +16,8 @@ jobs:
         run: |
           ./bin/deps
           echo "${HOME}/bin" >> $GITHUB_PATH
+          ls -lh ${HOME}/bin
+          echo $GITHUB_PATH
           which argocd
 
       - name: Create Cluster
