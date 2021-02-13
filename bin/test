@@ -4,8 +4,10 @@ set -e
 SCRIPT_DIR=$(dirname $0)
 
 # Kill background processes on script exit
-trap "exit" INT TERM ERR
-trap "kill 0" EXIT
+if [ -z "${CI}" ]; then
+  trap "exit" INT TERM ERR
+  trap "kill 0" EXIT
+fi
 
 kubectl get nodes
 kubectl get pods
