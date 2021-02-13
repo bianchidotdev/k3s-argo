@@ -16,8 +16,7 @@ ARGO_PW=$(kubectl get pods -n argocd -l app.kubernetes.io/name=argocd-server -o 
 NEW_ARGO_PW=$(openssl rand -base64 24)
 
 kubectl config set-context --current --namespace=argocd
-# ${SCRIPT_DIR}/wait-until-pods-ready 100 3
-sleep 30
+${SCRIPT_DIR}/wait-until-pods-ready 150 3 || true
 kubectl describe pods
 kubectl config set-context --current --namespace=default
 
