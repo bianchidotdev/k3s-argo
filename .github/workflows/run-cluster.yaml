@@ -12,11 +12,14 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v2
 
-      - name: Install deps
+      - name: Setup local bin path
         run: |
           mkdir -p "$HOME/.local/bin"
-          ./bin/deps
           echo "$HOME/.local/bin" >> $GITHUB_PATH
+
+      - name: Install deps
+        run: |
+          ./bin/deps
           echo $PATH
           which argocd
 
